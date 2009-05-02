@@ -1,0 +1,19 @@
+--- v1.0 (Jan 23, 2009)
+	- Initial release under GPLv2. 
+
+
+|  IO  | HD15 pin | Color      | Description
+|	 
+|	 PC5 |  1       | Brown      | Column [N/A,opt,3,6,9,#]
+|	 PC4 |  2       | Red        | Column [N/A,C,2,5,8,0]
+|	 PC3 |  3       | Orange     | Column [N/A,B,1,4,7,*]
+|	 PC2 |  4       | Yellow     | Column [Pause,A,East,West,South,North]
+|	 PC1 |  6       | Blue       | Row [Pause,N/A,N/A,N/A]
+|	 PC0 |  10      | Black      | Row [A,B,C,opt]
+|	 PB5 |  11      | Grey       | Row [East,1,2,3]
+|	 PB4 |  12      | Pale Blue  | Row [West,4,5,6]
+|	 PB3 |  13      | Pink       | Row [South,7,8,9]
+|	 PB0 |  14      | White      | Row [North,*,0,#]
+|	 VCC |  7       | Green
+|	 GND |  9       | Purple
+	 
