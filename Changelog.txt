@@ -1,19 +1,30 @@
---- v1.0 (Jan 23, 2009)
+--- v1.0 (May 2, 2009)
 	- Initial release under GPLv2. 
+	- Supports 1 alternate mapping. Hold 'Start' at power-up.
 
 
-|  IO  | HD15 pin | Color      | Description
-|	 
-|	 PC5 |  1       | Brown      | Column [N/A,opt,3,6,9,#]
-|	 PC4 |  2       | Red        | Column [N/A,C,2,5,8,0]
-|	 PC3 |  3       | Orange     | Column [N/A,B,1,4,7,*]
-|	 PC2 |  4       | Yellow     | Column [Pause,A,East,West,South,North]
-|	 PC1 |  6       | Blue       | Row [Pause,N/A,N/A,N/A]
-|	 PC0 |  10      | Black      | Row [A,B,C,opt]
-|	 PB5 |  11      | Grey       | Row [East,1,2,3]
-|	 PB4 |  12      | Pale Blue  | Row [West,4,5,6]
-|	 PB3 |  13      | Pink       | Row [South,7,8,9]
-|	 PB0 |  14      | White      | Row [North,*,0,#]
-|	 VCC |  7       | Green
-|	 GND |  9       | Purple
-	 
+	Connect Clock to PC5
+	Connect Latch to PC4
+	Connect Data to PC3
+	Connect Pin2 (+5volts) to 5 volts
+	Connect Ground to Ground...
+
+	Do not connect Vbat.
+
+
+Pin  Color   Name
+-----------------------------------
+ 1   Yellow  Data
+ 2   Blue    +5 volts
+ 3   Brown   Reset (Latch)
+ 4   Orange  Clock
+ 5   Black   Ground
+ 6   Red     Vbat (battery power)
+
+ _________
+/ 3  2  1 \
+| 6  5  4 |
+'---------'
+(looking into cable)
+
+
