@@ -5,7 +5,7 @@
  * Tabsize: 4
  * Copyright: (c) 2005 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt) or proprietary (CommercialLicense.txt)
- * This Revision: $Id: usbconfig.h,v 1.1 2009-05-02 19:22:30 cvs Exp $
+ * This Revision: $Id: usbconfig.h,v 1.2 2014-02-04 02:52:37 cvs Exp $
  */
 
 #ifndef __usbconfig_h_included__
@@ -129,10 +129,10 @@ rename it to "usbconfig.h". Then edit it accordingly.
 
 /* -------------------------- Device Description --------------------------- */
 
-#define  USB_CFG_VENDOR_ID       0x81, 0x17
-#define  USB_CFG_DEVICE_ID       0x7D, 0x05
+#define  USB_CFG_VENDOR_ID       0x9B, 0x28
+#define  USB_CFG_DEVICE_ID       0x0E, 0x00
 
-#define USB_CFG_DEVICE_VERSION  0x00, 0x01
+#define USB_CFG_DEVICE_VERSION  0x01, 0x01
 /* Version number of the device: Minor number first, then major number.
  */
 #define USB_CFG_VENDOR_NAME     'r', 'a', 'p', 'h', 'n', 'e', 't', '.', 'n', 'e', 't'
