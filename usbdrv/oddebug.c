@@ -4,8 +4,8 @@
  * Creation Date: 2005-01-16
  * Tabsize: 4
  * Copyright: (c) 2005 by OBJECTIVE DEVELOPMENT Software GmbH
- * License: GNU GPL v2 (see License.txt) or proprietary (CommercialLicense.txt)
- * This Revision: $Id: oddebug.c,v 1.1 2009-05-02 19:22:30 cvs Exp $
+ * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
+ * This Revision: $Id: oddebug.c,v 1.2 2014-02-04 02:18:14 cvs Exp $
  */
 
 #include "oddebug.h"
