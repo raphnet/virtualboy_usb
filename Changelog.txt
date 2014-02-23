@@ -1,3 +1,9 @@
+--- v1.1 (Feb 22, 2014)
+  - Alternate mapping can be enabled at run-time by grounding PORTC0 or PORTB1.
+  - Updates for compilation with recent GCC
+  - Updated USB VID/PID
+
+
 --- v1.0 (May 2, 2009)
 	- Initial release under GPLv2. 
 	- Supports 1 alternate mapping. Hold 'Start' at power-up.

@@ -1,5 +1,5 @@
 /* VBoy2USB: Virtual Boy to USB adapter
- * Copyright (C) 2009 Raphaël Assénat
+ * Copyright (C) 2009-2014 Raphaël Assénat
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,6 +49,8 @@
 
 #define VBOY_GET_DATA()	(VBOY_DATA_PIN & VBOY_DATA_BIT)
 
+/* PB1 or PC0 can be used to select mapping. They are ANDed together. */
+#define GET_JUMPER()	((PINB & (1<<PINB1)) && (PINC & (1<<PINC0)) )
 
 // report matching the most recent bytes from the controller
 static unsigned char last_read_controller_bytes[REPORT_SIZE];
@@ -56,7 +58,7 @@ static unsigned char last_read_controller_bytes[REPORT_SIZE];
 // the most recently reported bytes
 static unsigned char last_reported_controller_bytes[REPORT_SIZE];
 
-static char right_analog_mode = 0;
+static char en_alt_mapping = 0;
 
 static void virtualboyUpdate(void)
 {
@@ -64,6 +66,7 @@ static void virtualboyUpdate(void)
 	unsigned char tmp=0;
 	unsigned rawdat[2];
 	int x=128,y=128,rx=128,ry=128;
+	char left_dpad_analog = 0;
 
 	VBOY_LATCH_HIGH();
 	_delay_us(12);
@@ -95,7 +98,7 @@ static void virtualboyUpdate(void)
 		x = 0;
 	if (rawdat[0] & 0x01) // Right
 		x = 255;
-	
+
 
 	last_read_controller_bytes[0]=x;
 	last_read_controller_bytes[1]=y;
@@ -117,14 +120,23 @@ static void virtualboyUpdate(void)
 	if (rawdat[1] & 0x20) // L
 		last_read_controller_bytes[4] |= 0x20;
 
-	if (!right_analog_mode) {
+	// When no jumper is installed, the right D-pad controls
+	// buttons. We read a logic high when the jumper is
+	// absent.
+	left_dpad_analog = !GET_JUMPER();
+
+	if (en_alt_mapping) {
+		left_dpad_analog = !left_dpad_analog;
+	}
+
+	if (!left_dpad_analog) {
 		if (rawdat[1] & 0x40) // Up
 			last_read_controller_bytes[4] |= 0x40;
 		if (rawdat[1] & 0x80) // Right
 			last_read_controller_bytes[4] |= 0x80;
 		if (rawdat[0] & 0x80) // Down
 			last_read_controller_bytes[5] |= 0x01;
-		if (rawdat[0] & 0x40) // Left	
+		if (rawdat[0] & 0x40) // Left
 			last_read_controller_bytes[5] |= 0x02;
 	}
 	else {
@@ -134,24 +146,24 @@ static void virtualboyUpdate(void)
 			rx = 255;
 		if (rawdat[0] & 0x80) // Down
 			ry = 255;
-		if (rawdat[0] & 0x40) // Left	
+		if (rawdat[0] & 0x40) // Left
 			rx = 0;
 	}
 
  	last_read_controller_bytes[2]=rx;
  	last_read_controller_bytes[3]=ry;
-}	
+}
 
 static void virtualboyInit(void)
 {
 	unsigned char sreg;
 	sreg = SREG;
 	cli();
-	
+
 	// clock and latch as output
 	VBOY_LATCH_DDR |= VBOY_LATCH_BIT;
 	VBOY_CLOCK_DDR |= VBOY_CLOCK_BIT;
-	
+
 	// data as input
 	VBOY_DATA_DDR &= ~(VBOY_DATA_BIT);
 	// enable pullup. This should prevent random toggling of pins
@@ -166,8 +178,11 @@ static void virtualboyInit(void)
 
 	virtualboyUpdate();
 
+	// Alternate right D-pad mapping can be enabled by
+	// holding START at power-up. The default is
+	// selected with the jumper.
 	if (last_read_controller_bytes[4] & 0x04) {
-		right_analog_mode = 1;
+		en_alt_mapping = 1;
 	}
 
 	SREG = sreg;
@@ -176,8 +191,8 @@ static char virtualboyChanged(void)
 {
 	static int first = 1;
 	if (first) { first = 0;  return 1; }
-	
-	return memcmp(last_read_controller_bytes, 
+
+	return memcmp(last_read_controller_bytes,
 					last_reported_controller_bytes, REPORT_SIZE);
 }
 
@@ -187,9 +202,9 @@ static void virtualboyBuildReport(unsigned char *reportBuffer)
 	{
 		memcpy(reportBuffer, last_read_controller_bytes, REPORT_SIZE);
 	}
-	memcpy(last_reported_controller_bytes, 
-			last_read_controller_bytes, 
-			REPORT_SIZE);	
+	memcpy(last_reported_controller_bytes,
+			last_read_controller_bytes,
+			REPORT_SIZE);
 }
 
 #include "report_desc_4axes_10btns.c"
@@ -209,4 +224,3 @@ Gamepad *virtualboyGetGamepad(void)
 
 	return &virtualboyGamepad;
 }
-
