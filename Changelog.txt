@@ -1,3 +1,7 @@
+--- v1.2 (Sep 16, 2016)
+  - Add atmega168 support
+  - Remove optional set/get idle rate
+
 --- v1.1 (Feb 22, 2014)
   - Alternate mapping can be enabled at run-time by grounding PORTC0 or PORTB1.
   - Updates for compilation with recent GCC
